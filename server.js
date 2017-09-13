@@ -10,11 +10,11 @@ const transporter = require('nodemailer').createTransport({
     user: process.env.EMAIL_SENDER,
     pass: process.env.EMAIL_PW
   }
-})
+});
 
 const parser = require('./feed-parser');
 
-pshb.on('subscribe', () => console.log('subscribed'))
+pshb.on('subscribe', () => console.log('subscribed'));
 
 pshb.on('listen', () => {
   pshb.subscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", err => {if (err) console.error(err)});
