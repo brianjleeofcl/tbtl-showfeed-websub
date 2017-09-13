@@ -17,7 +17,7 @@ const parser = require('./feed-parser');
 pshb.on('subscribe', () => console.log('subscribed'))
 
 pshb.on('listen', () => {
-  pshb.subscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", console.error)
+  pshb.subscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", err => {if (err) console.error(err)});
 })
 
 pshb.on('error', error => {
@@ -51,5 +51,5 @@ pshb.on('unsubscribe', () => console.log('unsubscribed'));
 pshb.listen(process.env.PORT || 8000);
 
 process.on('exit', () => {
-  pshb.unsubscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", console.error);
+  pshb.unsubscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", err => {if (err) console.error(err)});
 })
