@@ -14,15 +14,10 @@ const transporter = require('nodemailer').createTransport({
 
 const parser = require('./feed-parser');
 
+pshb.on('subscribe', () => console.log('subscribed'))
+
 pshb.on('listen', () => {
-  pshb.subscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", error => {
-    if (error) {
-      console.error(error);
-    }
-    else {
-      console.log('subscribed');
-    }
-  })
+  pshb.subscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", console.error)
 })
 
 pshb.on('error', error => {
@@ -51,8 +46,10 @@ pshb.on('feed', data => {
   } 
 })
 
+pshb.on('unsubscribe', () => console.log('unsubscribed'));
+
 pshb.listen(process.env.PORT || 8000);
 
 process.on('exit', () => {
-  pshb.unsubscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/");
+  pshb.unsubscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", console.error);
 })
