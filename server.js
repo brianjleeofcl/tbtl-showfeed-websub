@@ -17,18 +17,18 @@ const parser = require('./feed-parser');
 pshb.on('subscribe', ({ topic }) => console.info(`${topic} subscribed`));
 
 pshb.on('listen', () => {
-  console.info(`listening on port ${node.env.PORT}`);
+  console.info(`listening on port ${process.env.PORT}`);
 
   pshb.subscribe(
     "http://feeds.feedburner.com/2b2l", 
     "http://pubsubhubbub.appspot.com/", 
     err => { if (err) console.error(err); }
   );
-})
+});
 
 pshb.on('error', error => {
   console.error(error);
-})
+});
 
 function getMailOption(obj) {
   return {
@@ -50,9 +50,9 @@ pshb.on('feed', ({ feed }) => {
         console.error(error);;
       }
       console.info('mail sent');
-    })
+    });
   } 
-})
+});
 
 pshb.on('unsubscribe', ({ topic }) => console.info(`${topic} unsubscribed`));
 
@@ -64,4 +64,4 @@ process.on('exit', () => {
     "http://pubsubhubbub.appspot.com/", 
     err => { if (err) console.error(err); }
   );
-})
+});
