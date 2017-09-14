@@ -1,17 +1,5 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').load();
-
-const pshb = require("pubsubhubbub").createServer({callbackUrl: 'https://tbtl-showfeed-websub.herokuapp.com/'});
-
-const transporter = require('nodemailer').createTransport({
-  host: 'mail.name.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_SENDER,
-    pass: process.env.EMAIL_PW
-  }
-});
-
+const pshb = require('pubsubhubbub').createServer({callbackUrl: 'https://tbtl-showfeed-websub.herokuapp.com/'});
+const axios = require('axios');
 const parser = require('./feed-parser');
 
 pshb.on('subscribe', ({ topic }) => console.info(`${topic} subscribed`));
@@ -30,27 +18,13 @@ pshb.on('error', error => {
   console.error(error);
 });
 
-function getMailOption(obj) {
-  return {
-    from: process.env.EMAIL_SENDER,
-    to: process.env.EMAIL_RECEIVER,
-    text: JSON.stringify(obj),
-    subject: `New tbtl posted`
-  }
-}
-
 pshb.on('feed', ({ feed }) => {
   const newFeed = feed.toString();
   console.log('feed')
   console.log(newFeed);
   if (/<title>#\d{3}/.test(newFeed)) {
-    const parsed = parser(newFeed);
-    transporter.sendMail(getMailOption(parsed), (error, info) => {
-      if (error) {
-        console.error(error);;
-      }
-      console.info('mail sent');
-    });
+    const data = parser(newFeed);
+    axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', { data }).then(({status}) => console.info(status));
   } 
 });
 
