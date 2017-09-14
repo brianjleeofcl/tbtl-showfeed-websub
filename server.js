@@ -1,6 +1,6 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').load();
 
-const pshb = require("pubsubhubbub").createServer({callbackUrl: 'https://pshb-parse-mailer.herokuapp.com/'});
+const pshb = require("pubsubhubbub").createServer({callbackUrl: 'https://tbtl-showfeed-websub.herokuapp.com/'});
 
 const transporter = require('nodemailer').createTransport({
   host: 'mail.name.com',
@@ -14,10 +14,16 @@ const transporter = require('nodemailer').createTransport({
 
 const parser = require('./feed-parser');
 
-pshb.on('subscribe', () => console.log('subscribed'));
+pshb.on('subscribe', ({ topic }) => console.info(`${topic} subscribed`));
 
 pshb.on('listen', () => {
-  pshb.subscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", err => {if (err) console.error(err)});
+  console.info(`listening on port ${node.env.PORT}`);
+
+  pshb.subscribe(
+    "http://feeds.feedburner.com/2b2l", 
+    "http://pubsubhubbub.appspot.com/", 
+    err => { if (err) console.error(err); }
+  );
 })
 
 pshb.on('error', error => {
@@ -33,10 +39,12 @@ function getMailOption(obj) {
   }
 }
 
-pshb.on('feed', data => {
-  const parsed = parser(data.feed.toString());
-
-  if (parsed.title[0] ==='#') {
+pshb.on('feed', ({ feed }) => {
+  const newFeed = feed.toString();
+  console.log('feed')
+  console.log(newFeed);
+  if (/<title>#\d{3}/.test(newFeed)) {
+    const parsed = parser(newFeed);
     transporter.sendMail(getMailOption(parsed), (error, info) => {
       if (error) {
         console.error(error);;
@@ -46,10 +54,14 @@ pshb.on('feed', data => {
   } 
 })
 
-pshb.on('unsubscribe', () => console.log('unsubscribed'));
+pshb.on('unsubscribe', ({ topic }) => console.info(`${topic} unsubscribed`));
 
-pshb.listen(process.env.PORT || 8000);
+pshb.listen(process.env.PORT);
 
 process.on('exit', () => {
-  pshb.unsubscribe("http://feeds.feedburner.com/2b2l", "http://pubsubhubbub.appspot.com/", err => {if (err) console.error(err)});
+  pshb.unsubscribe(
+    "http://feeds.feedburner.com/2b2l", 
+    "http://pubsubhubbub.appspot.com/", 
+    err => { if (err) console.error(err); }
+  );
 })
