@@ -24,7 +24,8 @@ pshb.on('feed', ({ feed }) => {
   console.log(newFeed);
   if (/<title>#\d{3}/.test(newFeed)) {
     const data = parser(newFeed);
-    axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', { data }).then(({status}) => console.info(status));
+    data.secret = process.env.HANDSHAKE_SECRET;
+    axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data).then(({status}) => console.info(status));
   } 
 });
 
