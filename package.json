@@ -1,7 +1,7 @@
 {
   "dependencies": {
+    "axios": "^0.16.2",
     "moment": "^2.18.1",
-    "nodemailer": "^4.1.0",
     "pubsubhubbub": "^0.4.1"
   },
   "devDependencies": {
