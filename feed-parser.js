@@ -1,7 +1,19 @@
 const moment = require('moment');
 
+function getItem(xml) {
+  return /<item>(.+?)<\/item>/.exec(xml)[1];
+}
+
+function sanitizeTitle(title) {
+  return title.split(' ').slice(1).map(sanitizeWord).join('-');
+}
+
+function sanitizeWord(word) {
+  return word.toLowerCase().replace(/[^\w-]/g, '');
+}
+
 module.exports = function(xml) {
-  const sanitized = xml.replace(/\n/g, '');
+  const sanitized = getItem(xml).replace(/\n/g, '');
   const title = /<title>(.+?)<\/title>/.exec(sanitized)[1];
   const description = /<itunes:summary>(.+?)<\/itunes:summary>/.exec(sanitized)[1];
 
@@ -13,12 +25,4 @@ module.exports = function(xml) {
   const url = `https://www.apmpodcasts.org/tbtl/${year}/${month}/${sanitizeTitle(title)}/`
   
   return { title, description, url }
-}
-
-function sanitizeTitle(title) {
-  return title.split(' ').slice(1).map(sanitizeWord).join('-');
-}
-
-function sanitizeWord(word) {
-  return word.toLowerCase().replace(/[^\w-]/g, '');
 }
