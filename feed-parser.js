@@ -13,7 +13,7 @@ function sanitizeWord(word) {
 }
 
 module.exports = function(xml) {
-  const sanitized = getItem(xml).replace(/\n/g, '');
+  const sanitized = getItem(xml.replace(/\n/g, ''));
   const title = /<title>(.+?)<\/title>/.exec(sanitized)[1];
   const description = /<itunes:summary>(.+?)<\/itunes:summary>/.exec(sanitized)[1];
 

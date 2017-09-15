@@ -1,4 +1,9 @@
-<item>
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+  <channel><title>TBTL - Too Beautiful To Live</title><link>http://www.infiniteguest.org/tbtl/</link><description>TBTL (Too Beautiful to Live, if you were curious) is a daily weekday podcast from Luke Burbank and co-host/producer Andrew Walsh. It is about life. It is about current events. It is about popular culture. It is about Luke’s weight on that day. Luke, who also hosts the popular Live Wire variety show, started TBTL as a radio program in 2008 before transitioning to the world of podcasts in 2009. Luke, Andrew, and their loyal fans have been going strong ever since.</description><language>en-us</language><copyright>Copyright 2017 American Public Media</copyright><ttl>60</ttl><itunes:author>Luke Burbank &amp; Andrew Walsh</itunes:author><itunes:summary>TBTL (Too Beautiful to Live) is a daily weekday podcast from Luke Burbank and co-host/producer Andrew Walsh.  It is about life, current events, popular culture, puttering, serial boat ownership, and night pants.  Hotline: (206) 414-8285.</itunes:summary><itunes:explicit>Yes</itunes:explicit><itunes:new-feed-url>http://feeds.publicradio.org/public_feeds/tbtl/itunes/rss</itunes:new-feed-url><itunes:owner>
+      <itunes:name>American Public Media</itunes:name>
+      <itunes:email>podcasts@americanpublicmedia.org</itunes:email>
+    </itunes:owner><itunes:image href="https://www.apmpodcasts.org/wp-content/uploads/2017/06/TBTL-logo.png" /><itunes:category text="Comedy" /><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="http://feeds.feedburner.com/2b2l" /><feedburner:info uri="2b2l" /><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="hub" href="http://pubsubhubbub.appspot.com/" /><item>
 <title>#2455 Did We Say Nothing?!</title>
 <description>
 <![CDATA[
@@ -18,3 +23,5 @@ Luke's inevitable skateboard-related injury occurred over the weekend, while And
 https://play.podtrac.com/APM-TooBeautifulToLive/play.publicradio.org/rss/d/podcast/infinite_guest/tbtl/2017/08/tbtl_20170828_128.mp3
 </feedburner:origEnclosureLink>
 </item>
+</channel>
+</rss>
