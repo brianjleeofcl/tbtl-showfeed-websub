@@ -5,6 +5,7 @@ This server subscribes to an RSS feed which implements the [websub spec](https:/
 There are no publicly available APIs to this server as its only purpose is to subscribe to a websub hub, handle requests from the hub and handle feed updates.
 
 When a new feed is published, it is sent to this server, where the XML string is parsed using the function in `./feed-parser.js`. The parsed result is a JavaScript Object with the following properties:
+
 | key | value description|
 |-----|------------------|
 |String title| Title of the episode. |
