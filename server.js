@@ -20,12 +20,13 @@ pshb.on('error', error => {
 
 pshb.on('feed', ({ feed }) => {
   const newFeed = feed.toString();
-  console.log('feed')
-  console.log(newFeed);
+  console.log('feed');
   if (/<title>#\d{3}/.test(newFeed)) {
-    const data = parser(newFeed);
-    data.secret = process.env.HANDSHAKE_SECRET;
-    axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data).then(({status}) => console.info(status));
+    parser(xml).then(data => {
+      data.secret = process.env.HANDSHAKE_SECRET;
+      
+      return axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data);
+    }).then(({status}) => console.info(status));
   } 
 });
 
