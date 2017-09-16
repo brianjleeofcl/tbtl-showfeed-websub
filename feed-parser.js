@@ -1,8 +1,8 @@
 const moment = require('moment');
+const { parseString } = require('xml2js');
+const { promisify, inspect } = require('util');
 
-function getItem(xml) {
-  return /<item>(.+?)<\/item>/.exec(xml)[1];
-}
+const parse = promisify(parseString);
 
 function sanitizeTitle(title) {
   return title.split(' ').slice(1).map(sanitizeWord).join('-');
@@ -12,17 +12,18 @@ function sanitizeWord(word) {
   return word.toLowerCase().replace(/[^\w-]/g, '');
 }
 
-module.exports = function(xml) {
-  const sanitized = getItem(xml.replace(/\n/g, ''));
-  const title = /<title>(.+?)<\/title>/.exec(sanitized)[1];
-  const description = /<itunes:summary>(.+?)<\/itunes:summary>/.exec(sanitized)[1];
-
-  const date = moment(/<pubDate>(.+?)<\/pubDate>/.exec(sanitized)[1]);
-  const year = String(date.year());
-  let month = String(date.month() + 1);
-  if (month.length === 1) month = '0' + month;
-
-  const url = `https://www.apmpodcasts.org/tbtl/${year}/${month}/${sanitizeTitle(title)}/`
+module.exports = function(rawxml) {
+  const xml = rawxml.replace('& ', '&amp; ');
+  return parse(xml).then(({rss}) => {
+    const { title, description, pubDate } = rss.channel[0].item[0];
+    return [{ title: title[0], description: description[0].replace(/\n/g, '') }, pubDate[0]];
+  }).then(([obj, pubDate]) => {
+    const date = moment(pubDate);
+    const year = String(date.year());
+    let month = String(date.month() + 1);
+    if (month.length === 1) month = '0' + month;
   
-  return { title, description, url }
+    obj.url = `https://www.apmpodcasts.org/tbtl/${year}/${month}/${sanitizeTitle(obj.title)}/`;
+    return obj;
+  });
 }

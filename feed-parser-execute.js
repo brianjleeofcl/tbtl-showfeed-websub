@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-console.log('a')
-const [node, _, file] = process.argv;
+const [node, _, path] = process.argv;
 
-const xml = require('fs').readFileSync(file, 'utf-8');
+const xml = require('fs').readFileSync(require('path').resolve(__dirname, path), 'utf-8');
 
-console.log(require('./feed-parser')(xml));
+const parser = require('./feed-parser');
+
+parser(xml).then(res => console.log(require('util').inspect(res)));
