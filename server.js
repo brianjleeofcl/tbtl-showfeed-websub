@@ -26,7 +26,7 @@ pshb.on('feed', ({ feed }) => {
       data.secret = process.env.HANDSHAKE_SECRET;
       
       return axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data);
-    }).then(({status}) => console.info(status));
+    }).then(({status}) => console.info(status)).catch(console.error);
   } 
 });
 
