@@ -22,7 +22,7 @@ pshb.on('feed', ({ feed }) => {
   const newFeed = feed.toString();
   console.log('feed');
   if (/<title>#\d{3}/.test(newFeed)) {
-    parser(xml).then(data => {
+    parser(newFeed).then(data => {
       data.secret = process.env.HANDSHAKE_SECRET;
       
       return axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data);
