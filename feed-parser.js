@@ -16,7 +16,7 @@ module.exports = function(rawxml) {
   const xml = rawxml.replace('& ', '&amp; ');
   return parse(xml).then(({rss}) => {
     const { title, description, pubDate } = rss.channel[0].item[0];
-    return [{ title: title[0], description: description[0].replace(/\n/g, '') }, pubDate[0]];
+    return [{ title: title[0], description: description[0].trim() }, pubDate[0]];
   }).then(([obj, pubDate]) => {
     const date = moment(pubDate);
     const year = String(date.year());
