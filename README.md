@@ -21,3 +21,5 @@ The `Object` above is sent as `POST` data in JSON format to another webserver to
 1. The feed listener checks for title tags to contain a string that begins with `#` and a three digit number, using `/<title>#\d{3}/` as the regular expression and the `test()` method. This is to prevent placeholding posts without actual title data from being submitted to reddit. If the producers at some point change the naming convention for episode titles, this will fail and need to be updated.
 
 2. `feed-parser.js` makes a substitution of `& ` to `&amp; `. While the feed sent over from the websub hub is likely to NOT contain the ampersand, the data copied from xml on browsers have contained an ampersand which caused test cases to fail. It SHOULD be redundant in production use but also a fair check since `xml2js` will crash if the xml is invalid.
+
+3. For some reason `description` of the feed includes linebreaks before and after the string. The parser trims this using the `.trim()` method, otherwise it breaks formatting in the Reddit post.
