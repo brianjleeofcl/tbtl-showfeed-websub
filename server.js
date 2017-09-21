@@ -21,13 +21,11 @@ pshb.on('error', error => {
 pshb.on('feed', ({ feed }) => {
   const newFeed = feed.toString();
   console.log('feed');
-  if (/<title>#\d{3}/.test(newFeed)) {
-    parser(newFeed).then(data => {
-      data.secret = process.env.HANDSHAKE_SECRET;
-      
-      return axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data);
-    }).then(({status}) => console.info(status)).catch(console.error);
-  } 
+  parser(newFeed).then(data => {
+    data.secret = process.env.HANDSHAKE_SECRET;
+    
+    return axios.post('https://tbtl-showfeed.herokuapp.com/api/new-post', data);
+  }).then(({status}) => console.info(status)).catch(console.error);
 });
 
 pshb.on('unsubscribe', ({ topic }) => console.info(`${topic} unsubscribed`));

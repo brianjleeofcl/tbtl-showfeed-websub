@@ -5,7 +5,9 @@ const { promisify, inspect } = require('util');
 const parse = promisify(parseString);
 
 function sanitizeTitle(title) {
-  return title.split(' ').slice(1).map(sanitizeWord).join('-');
+  const partsOfTitle = title.split(' ').map(sanitizeWord);
+  if (/#\d{3}/.test(partsOfTitle[0])) return partsOfTitle.slice(1).join('-');
+  else return partsOfTitle.join('-');
 }
 
 function sanitizeWord(word) {
